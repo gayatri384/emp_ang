@@ -1,0 +1,135 @@
+/* Header */
+.attendance-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.attendance-header h2 {
+  font-size: 26px;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Action Buttons */
+.action-box {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.att-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.present {
+  background: #28a745;
+}
+
+.half {
+  background: #ffc107;
+  color: #000;
+}
+
+.leave {
+  background: #dc3545;
+}
+
+.att-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.update-msg {
+  text-align: center;
+  font-size: 14px;
+  margin: 12px 0;
+  color: #444;
+}
+
+/* Attendance List Card */
+.attendance-card {
+  background: #f9fafb;
+  padding: 10px 0;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Table Header */
+.table-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 12px 20px;
+  background: #e9efff;
+  font-weight: 600;
+  border-bottom: 1px solid #d0d7e6;
+  border-radius: 10px 10px 0 0;
+}
+
+/* Table Rows */
+.table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 14px 20px;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 5px 12px;
+  text-align: center;
+  border-radius: 20px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 600;
+  width: fit-content;
+  margin-left: auto;
+}
+
+.status-badge.present {
+  background: #d4f8df;
+  color: #0d7a32;
+}
+
+.status-badge.half {
+  background: #fff6cc;
+  color: #8a6d00;
+}
+
+.status-badge.leave {
+  background: #ffd6d6;
+  color: #b10000;
+}
+
+/* No Data */
+.no-data {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 15px;
+  color: #777;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+
+
+  .action-box {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

@@ -1,0 +1,117 @@
+/* MAIN CONTAINER */
+.attendance-container {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* PAGE TITLE */
+.attendance-container h2 {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* FILTER AREA */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.filter-input {
+  padding: 8px 12px;
+  min-width: 220px;
+  border-radius: 6px !important;
+  border: 1px solid #ccc !important;
+  font-size: 14px;
+}
+
+/* SUCCESS MESSAGE */
+.attendance-container p {
+  font-size: 15px;
+}
+
+/* TABLE WRAPPER */
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* TABLE STYLING */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+}
+
+/* TABLE HEADER */
+.table thead th {
+  background: #0f172a !important;
+  color: white;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* TABLE BODY */
+.table tbody td {
+  padding: 12px;
+  color: #333;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+/* ROW HOVER EFFECT */
+.table tbody tr:hover {
+  background: #f1f5f9;
+  transition: 0.2s ease-in-out;
+}
+
+/* DROPDOWN IN TABLE */
+.table select {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* BADGES (status) */
+.badge {
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+/* RESPONSIVE RULES */
+@media (max-width: 768px) {
+  .filter-input {
+    min-width: 100%;
+  }
+
+  .table thead th,
+  .table tbody td {
+    padding: 10px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 500px) {
+  .attendance-container {
+    padding: 15px;
+  }
+
+  .table thead th,
+  .table tbody td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .table select {
+    font-size: 12px;
+    padding: 3px 6px;
+  }
+}

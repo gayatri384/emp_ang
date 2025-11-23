@@ -1,0 +1,243 @@
+/* ===== Layout Container ===== */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 250px;
+  background: #1f2937;
+  color: #fff;
+  transition: all 0.3s;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: -250px;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border-bottom: 1px solid #374151;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: white;
+  cursor: pointer;
+}
+
+.sidebar .menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar .menu li {
+  padding: 1rem;
+  cursor: pointer;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s;
+}
+
+.sidebar .menu li.active,
+.sidebar .menu li:hover {
+  background: #374151;
+}
+
+/* ===== Main Section ===== */
+.main {
+  flex: 1;
+  margin-left: 0;
+  transition: margin 0.3s;
+  width: 100%;
+}
+
+.sidebar.open~.main {
+  margin-left: 250px;
+}
+
+/* ===== Topbar ===== */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  background: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* ===== Menu Button ===== */
+.menu-btn {
+  font-size: 1.6rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+/* ===== Right Section ===== */
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+/* ===== Search Box ===== */
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  width: 160px;
+  padding: 6px 32px 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.search-box input:focus {
+  border-color: #007bff;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 16px;
+  pointer-events: none;
+}
+
+/* ===== Notification ===== */
+.notification {
+  position: relative;
+  cursor: pointer;
+}
+
+.notification i {
+  font-size: 20px;
+  color: #333;
+}
+
+.notification .count {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  padding: 2px 6px;
+}
+
+/* ===== User Profile ===== */
+.user-profile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-profile img {
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  border: 2px solid #ddd;
+  transition: transform 0.2s ease;
+}
+
+.user-profile:hover img {
+  transform: scale(1.05);
+}
+
+.user-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background: white;
+  border: 1px solid #ccc;
+  list-style: none;
+  padding: 0.5rem 0;
+  min-width: 160px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 20;
+  border-radius: 8px;
+}
+
+.user-dropdown.show {
+  display: block;
+}
+
+.user-dropdown li {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.user-dropdown li:hover {
+  background: #f3f4f6;
+}
+
+/* ===== Page Content ===== */
+.content {
+  padding: 1rem;
+  background: #f9fafb;
+  min-height: calc(100vh - 60px);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+  .sidebar {
+    left: -250px;
+  }
+
+  .sidebar.open~.main {
+    margin-left: 0;
+  }
+
+  .right-section {
+    gap: 15px;
+  }
+
+  .search-box input {
+    width: 120px;
+  }
+}
+/* Display User Name  */
+.user-name {
+  font-weight: 600;
+  cursor: pointer;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: #f3f3f3;
+  transition: background-color 0.3s;
+}
+
+.user-name:hover {
+  background-color: #e2e2e2;
+}
+
+/* Display User Name End */

@@ -1,0 +1,47 @@
+<div class="leave-container">
+  <h2>Leave Requests</h2>
+  <input type="text" class="search-pagination" placeholder="Search by name, status, reason..." [(ngModel)]="searchText"
+    (keyup)="onSearch()">
+  <div class="table-wrapper">
+    <table class="leave-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Employee Name</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Reason</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let leave of leaves">
+          <td>{{ leave.id }}</td>
+          <td> {{ leave.employee?.fullName || '—' }}</td>
+
+          <td>{{ leave.startDate }}</td>
+          <td>{{ leave.endDate }}</td>
+          <td>{{ leave.reason }}</td>
+          <td>
+            <span class="status" [ngClass]="leave.status.toLowerCase()">
+              {{ leave.status }}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="btn small approve" (click)="approveLeave(leave.id)">Approve</button>
+            <button class="btn small reject" (click)="rejectLeave(leave.id)">Reject</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Pagination -->
+    <div class="pagination-controls">
+      <button class="btn btn-primary" (click)="prevPage()" [disabled]="page === 1">Previous</button>
+
+      <span>Page {{ page }} of {{ totalRecords | number }}</span>
+
+      <button class="btn btn-primary" (click)="nextPage()" [disabled]="page * pageSize >= totalRecords">Next</button>
+    </div>
+  </div>
+</div>

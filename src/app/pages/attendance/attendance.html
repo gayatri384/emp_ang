@@ -1,0 +1,60 @@
+<div class="container mt-4 ">
+  <h2 class="text-center mb-3">Employee Attendance</h2>
+
+  <div class="filters d-flex flex-wrap justify-content-center gap-3 mb-4">
+    <input
+      type="text"
+      placeholder="🔍 Search Employee Name..."
+      class="form-control filter-input"
+      [(ngModel)]="searchName"
+      (input)="applyFilters()"
+    />
+
+    <input
+      type="month"
+      class="form-control filter-input"
+      [(ngModel)]="selectedDate"
+      (change)="applyFilters()"
+    />
+  </div>
+
+  <p class="text-center text-success fw-bold">{{ message }}</p>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle text-center">
+      <thead class="table-dark">
+        <tr>
+          <th>Employee Name</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Change Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of filteredList">
+          <td>{{ a.employeeName }}</td>
+          <td>{{ a.date | date:'shortDate' }}</td>
+          <td>
+            <span [ngClass]="{
+              'badge bg-danger': a.status === 0,
+              'badge bg-success': a.status === 1,
+              'badge bg-warning text-dark': a.status === 2,
+              'badge bg-info text-dark': a.status === 3
+            }">
+              {{ getStatusLabel(a.status) }}
+            </span>
+          </td>
+          <td>
+            <select class="form-select form-select-sm w-auto mx-auto"
+              (change)="updateAttendance(a.employeeId, a.date, $any($event.target).value)">
+              <option value="0">A</option>
+              <option value="1">P</option>
+              <option value="2">H</option>
+              <option value="3">L</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

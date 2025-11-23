@@ -1,0 +1,104 @@
+<div class="container">
+  <h2>Asset List</h2>
+  <button (click)="openModal('add')" class="btn">+ Add Asset</button>
+  <button class="btn print" (click)="printAllAssets()">
+    <i class="fa fa-print"></i> <!-- Font Awesome icon -->
+  </button>
+
+  <!-- Search + Pagination -->
+  <div class="search-pagination">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Search departments..." />
+    <button class="btn" (click)="onSearch()">Search</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="asset-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Asset Name</th>
+          <th>Category</th>
+          <th>Serial Number</th>
+          <th>Purchase Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let asset of assets">
+          <td>{{ asset.id }}</td>
+          <td>{{ asset.assetName }}</td>
+          <td>{{ asset.category }}</td>
+          <td>{{ asset.serialNumber }}</td>
+          <td>{{ asset.purchaseDate | date: 'mediumDate' }}</td>
+          <td>
+            <span [class.available]="asset.isAvailable" [class.damaged]="asset.isDamaged">
+              {{ asset.isDamaged ? 'Damaged' : (asset.isAvailable ? 'Available' : 'Assigned') }}
+            </span>
+          </td>
+          <td>
+            <button class="btn small" (click)="openModal('edit', asset)">Edit</button>
+            <button class="btn small danger" (click)="deleteAsset(asset.id!)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Pagination Controls -->
+  <div class="pagination-controls">
+    <button (click)="prevPage()" [disabled]="page === 1">Prev</button>
+    <span>Page {{ page }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="page === totalPages">Next</button>
+  </div>
+</div>
+
+<!-- ✅ Modal (Same Style as Department) -->
+<div class="modal" *ngIf="showModal">
+  <div class="modal-content">
+    <h3 *ngIf="modalMode === 'add'">Add Asset</h3>
+    <h3 *ngIf="modalMode === 'edit'">Edit Asset</h3>
+
+    <form class="form-grid" (ngSubmit)="saveAsset()">
+      <div class="form-group">
+        <label>Asset Name</label>
+        <input type="text" [(ngModel)]="selectedAsset!.assetName" name="assetName" required />
+      </div>
+
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" [(ngModel)]="selectedAsset!.category" name="category" required />
+      </div>
+
+      <div class="form-group">
+        <label>Serial Number</label>
+        <input type="text" [(ngModel)]="selectedAsset!.serialNumber" name="serialNumber" />
+      </div>
+
+      <div class="form-group">
+        <label>Purchase Date</label>
+        <input type="date" [(ngModel)]="selectedAsset!.purchaseDate" name="purchaseDate" />
+      </div>
+
+      <div class="form-group">
+        <label>Available</label>
+        <select [(ngModel)]="selectedAsset!.isAvailable" name="isAvailable">
+          <option [value]="true">Yes</option>
+          <option [value]="false">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Damaged</label>
+        <select [(ngModel)]="selectedAsset!.isDamaged" name="isDamaged">
+          <option [value]="false">No</option>
+          <option [value]="true">Yes</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="btn primary">{{ modalMode | titlecase }}</button>
+      </div>
+    </form>
+  </div>
+</div>

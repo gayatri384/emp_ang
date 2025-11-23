@@ -1,0 +1,375 @@
+import { Routes } from '@angular/router';
+import { Login } from './pages/login/login';
+import { Dashboard } from './pages/dashboard/dashboard';
+import { Layout } from './pages/layout/layout';
+import { Employee } from './pages/employee/employee';
+
+export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full' // Redirect root path to login
+  },
+  {
+    path: 'login',
+    component: Login
+  },
+  {
+    path: 'app',
+    component: Layout,
+    children: [
+      {
+        path: 'dashboard',
+        component: Dashboard
+      },
+      {
+        path: 'employee',
+        component: Employee
+      },
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      }
+    ]
+  }
+];
+
+
+
+main.ts
+
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import { App } from './app/app';
+
+
+bootstrapApplication(App, appConfig)
+  .catch((err) => console.error(err));
+
+login.componenet.ts
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
+
+@Component({
+  selector: 'app-login',
+  imports: [FormsModule,CommonModule],
+  templateUrl: './login.html',
+  styleUrl: 'login.css'
+})
+export class Login {
+  email: string = '';
+  password: string = '';
+
+  constructor (private authService: AuthService, private router: Router)
+  {}
+  
+ onSubmit() {
+  this.authService.login(this.email, this.password).subscribe({
+    next: (res) => {
+      if (res.token){
+        this.authService.saveToken(res.token);
+        console.log("Login Successful, Token saved");
+        this.router.navigate(['/dashboard']); // redirect after login
+      }
+    },
+    error: (err) =>{
+      console.log('login failed',err);
+      alert('Invalid credentials');
+    }
+  })
+    // console.log('Login submitted');
+  }
+}
+
+
+
+<div class="modal" *ngIf="otpModal">
+  <div class="modal-content">
+    <h3>Verify OTP</h3>
+    <input type="text" [(ngModel)]="otpCode" placeholder="Enter OTP">
+    <div class="form-actions">
+      <button class="btn" (click)="otpModal=false">Cancel</button>
+      <button class="btn primary" (click)="verifyOTP()">Verify</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+...........................................................................................................
+import { Component, OnInit } from '@angular/core';
+import { TitleCasePipe, CommonModule } from '@angular/common';
+import { Employee } from './employee.model';
+import { EmployeeService } from '../services/employee.service';
+import { FormsModule } from '@angular/forms';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs';
+import { ChangeDetectorRef } from '@angular/core';
+import { Department } from '../department/department.model';
+
+@Component({
+  selector: 'app-employee',
+  standalone: true,
+  imports: [TitleCasePipe, CommonModule, FormsModule],
+  templateUrl: './employee.html',
+  styleUrls: ['./employee.css']
+})
+export class EmployeeComponent implements OnInit {
+  employees: Employee[] = [];
+  departments: Department[] = []; // store dropdown data
+  selectedEmployee: Employee | null = null;
+
+  showModal: boolean = false;
+  modalMode: 'add' | 'edit' = 'add';
+  otpModal: boolean = false;
+
+  // for otp verify
+  otpEmail: string = '';
+  otpCode: string = '';
+
+  constructor(private employeeService: EmployeeService, private routes: Router, private cdr: ChangeDetectorRef) { }
+
+  ngOnInit(): void {
+    console.log("EmployeeComponent OnInit fired");
+    this.loadEmployees();
+
+    // Reload data on every navigation to this route
+    this.routes.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        if (event.urlAfterRedirects.includes('/employee')) {
+          console.log("Navigated to /employee, reloading data");
+          this.loadEmployees();
+        }
+      });
+  }
+
+  // Load all employees
+  loadEmployees() {
+    console.log("Loading employee data...");
+
+    this.employeeService.getEmployees().subscribe({
+      next: (res: any) => {  // 👈 use 'any' to stop TypeScript complaining
+        console.log("Employee data received:", res);
+
+        if (Array.isArray(res)) {
+          this.employees = res;
+        } else if (res && Array.isArray(res.employees)) {
+          this.employees = res.employees;
+        } else if (res && Array.isArray(res.data)) {
+          this.employees = res.data;
+        } else {
+          console.error("Unexpected format:", res);
+          this.employees = [];
+        }
+
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error("Error loading employees:", err);
+      }
+    });
+  }
+
+  // OTP Modal
+  openOTPModal() {
+    this.otpModal = true;
+    this.otpEmail = '';
+    this.otpCode = '';
+  }
+  // Close OTP modal
+  closeOTPModal() {
+    this.otpModal = false;
+  }
+
+  verifyOTP() {
+    if (this.otpEmail.trim() && this.otpCode.trim()) {
+      this.employeeService.verifyOTP(this.otpEmail, this.otpCode).subscribe({
+        next: (res: string) => {
+          alert("✅ " + res); // should show "Email verified successfully."
+          this.closeOTPModal();
+        },
+        error: (err) => {
+          console.error("OTP error:", err);
+          alert("❌ " + (err.error || err.message));
+        }
+      });
+    } else {
+      alert("Please enter both Email and OTP ❌");
+    }
+  }
+
+
+  //  Open popup for Add or Edit
+  openModal(mode: 'add' | 'edit', employee?: Employee) {
+    this.modalMode = mode;
+    this.showModal = true;
+
+    // if editing, prefill form with employee details
+    if (employee) {
+      // Prefill for editing
+      this.selectedEmployee = { ...employee };
+    } else {
+      // Reset for adding new employee
+      this.selectedEmployee = {
+        id: 0,           // ✅ required
+        fullName: '',
+        email: '',
+        password: '',
+        mobile: '',
+        address: '',
+        gender: '',
+        dateOfBirth: '',
+        department: null, // ✅ FIXED (was '')
+        designation: '',
+        joiningDate: '',
+        salary: 0,
+        role: 'Employee',
+        isActive: true,
+        isverify: false
+      };
+    }
+  }
+
+  // Add new employee
+  addEmployee(employee: Employee) {
+    this.employeeService.addEmployee(employee).subscribe(() => {
+      alert("Employee added successfully");
+      this.loadEmployees();
+      this.closeModal();
+    });
+  }
+
+  // Update employee
+  updateEmployee(employee: Employee) {
+    if (employee.id) {
+      this.employeeService.updateEmployee(employee.id, employee).subscribe(() => {
+        alert("Employee updated successfully");
+        this.loadEmployees();
+        this.closeModal();
+      });
+    }
+  }
+
+  // Delete employee
+  deleteEmployee(id: number) {
+    this.employeeService.deleteEmployee(id).subscribe(() => {
+      alert("Employee deleted successfully");
+      this.loadEmployees();
+    });
+  }
+
+  saveEmployee() {
+    if (this.modalMode === 'add' && this.selectedEmployee) {
+      this.addEmployee(this.selectedEmployee);
+    } else if (this.modalMode === 'edit' && this.selectedEmployee) {
+      this.updateEmployee(this.selectedEmployee);
+    }
+  }
+
+  // close popup
+  closeModal() {
+    this.showModal = false;
+  }
+
+  // for print employee details
+  printAllEmployees() {
+    this.employeeService.getEmployees().subscribe({
+      next: (employees) => {
+        const printableContent = this.generatePrintableHTML(employees);
+        const printWindow = window.open('', '', 'height=600,width=800');
+        if (printWindow) {
+          printWindow.document.write('<html><head><title>Employee List</title></head><body>');
+          printWindow.document.write(printableContent);
+          printWindow.document.write('</body></html>');
+          printWindow.document.close();
+          printWindow.print();
+        }
+      },
+      error: (err) => {
+        console.error("Print error:", err);
+        alert("❌ Failed to fetch employee data for printing.");
+      }
+    });
+  }
+
+
+  // format for data and salary
+  formatDate(dateStr: string): string {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
+  }
+
+  formatSalary(salary: number): string {
+    return `₹${salary.toLocaleString('en-IN')}`;
+  }
+
+  //  employee data into printable HTML
+
+  generatePrintableHTML(employees: any[]): string {
+    const now = new Date().toLocaleString();
+
+    let html = `
+    <div style="text-align:center;">
+      <img src="assets/images/emp_login.jpg" alt="Company Logo" height="60">
+      <h2>Employee List</h2>
+    </div>
+    <p style="text-align:right;">Printed on: ${now}</p>
+    <table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse:collapse;">
+      <thead style="background-color:#f2f2f2;">
+        <tr>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Mobile</th>
+          <th>Department</th>
+          <th>Designation</th>
+          <th>Address</th>
+          <th>Gender</th>
+          <th>Date of Birth</th>
+          <th>Joining Date</th>
+          <th>Salary</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+    employees.forEach(emp => {
+      html += `
+      <tr>
+        <td>${emp.fullName}</td>
+        <td>${emp.email}</td>ng
+        <td>${emp.mobile}</td>
+        <td>${emp.department}</td>
+        <td>${emp.designation}</td>
+        <td>${emp.address}</td>
+        <td>${emp.gender}</td>
+        <td>${this.formatDate(emp.dateOfBirth)}</td>
+        <td>${this.formatDate(emp.joiningDate)}</td>
+        <td>${this.formatSalary(emp.salary)}</td>
+      </tr>
+    `;
+    });
+
+    html += `
+      </tbody>
+    </table>ng
+  `;
+    return html;
+  }
+}
+
+........................................................................................................................

@@ -1,0 +1,33 @@
+<h3 class="asset-title">Your Assigned Assets</h3>
+
+<div class="table-responsive">
+  <table *ngIf="assets.length > 0" class="asset-table">
+    <thead>
+      <tr>
+        <th>Asset ID</th>
+        <th>Asset Name</th>
+        <th>Remarks</th>
+        <th>Assigned Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let a of assets">
+        <td>{{ a.assetId }}</td>
+        <td>{{ a.assetName   }}</td>
+        <td>{{ a.remarks || 'No remarks' }}</td>
+        <td>{{ a.assignedDate | date: 'dd-MMM-yyyy' }}</td>
+        <td [ngClass]="{
+            'damaged': a.isDamagedOnReturn,
+            'good': !a.isDamagedOnReturn
+          }">
+          {{ a.isDamagedOnReturn ? 'Damaged' : 'Good Condition' }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="assets.length === 0" class="no-records">
+    No assets assigned to you.
+  </p>
+</div>

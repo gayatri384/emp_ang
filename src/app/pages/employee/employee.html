@@ -1,0 +1,149 @@
+<div class="container">
+  <h2>Employee List</h2>
+  <button (click)="openModal('add')" class="btn">+ Add Employee</button>
+  <button (click)="openOTPModal()" class="btn">Verify OTP</button>
+  <!-- New Print Icon -->
+  <button class="btn print" (click)="printAllEmployees()">
+    <i class="fa fa-print"></i> <!-- Font Awesome icon -->
+  </button>
+  <div class="search-pagination">
+    <input type="text" [(ngModel)]="searchText" placeholder="Search..." (click)="search()" />
+    <button (click)="search()" class="btn">Search</button>
+  </div>
+  
+  <div class="table-wrapper">
+    <table class="employee-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Department</th>
+          <th>Designation</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emp of employees">
+          <td>{{ emp.id }}</td>
+          <td>{{ emp.fullName }}</td>
+          <td>{{ emp.email }}</td>
+          <td>{{ emp.department?.departmentName || 'N/A' }}</td>
+          <td>{{ emp.designation }}</td>
+          <td>
+            <button class="btn small" (click)="openModal('edit', emp)">Edit</button>
+            <button class="btn small danger" (click)="deleteEmployee(emp.id!)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="page === 1">Prev</button>
+  <span>Page {{ page }} / {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="page === totalPages">Next</button>
+</div>
+
+<!-- Popup Modal -->
+<div class="modal" *ngIf="showModal">
+  <div class="modal-content">
+    <h3 *ngIf="modalMode === 'add'">Add Employee</h3>
+    <h3 *ngIf="modalMode === 'edit'">Edit Employee</h3>
+
+    <form class="form-grid" #empForm="ngForm" (ngSubmit)="saveEmployee()">
+
+      <!-- Row 1 -->
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" [(ngModel)]="selectedEmployee!.fullName" name="fullName" placeholder="Enter full name"
+          required>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="selectedEmployee!.email" name="email" placeholder="Enter email" required>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="form-group" *ngIf="modalMode === 'add'">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="selectedEmployee!.password" name="password" placeholder="Enter password">
+      </div>
+      <div class="form-group">
+        <label>Mobile</label>
+        <input type="text" [(ngModel)]="selectedEmployee!.mobile" name="mobile" placeholder="Enter mobile number">
+      </div>
+
+      <!-- Row 3 -->
+      <div class="form-group">
+        <label>Address</label>
+        <textarea [(ngModel)]="selectedEmployee!.address" name="address" placeholder="Enter address"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Gender</label>
+        <select [(ngModel)]="selectedEmployee!.gender" name="gender">
+          <option value="">Select gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="form-group">
+        <label>Date of Birth</label>
+        <input type="date" [(ngModel)]="selectedEmployee!.dateOfBirth" name="dateOfBirth">
+      </div>
+      <div class="form-group">
+        <label>Department</label>
+        <select [(ngModel)]="selectedEmployee!.departmentId" name="departmentId" required>
+          <option value="">-- Select Department --</option>
+          <option *ngFor="let dept of departments" [value]="dept.id">
+            {{ dept.departmentName }}
+          </option>
+        </select>
+      </div>
+
+
+      <!-- Row 5 -->
+      <div class="form-group">
+        <label>Designation</label>
+        <input type="text" [(ngModel)]="selectedEmployee!.designation" name="designation"
+          placeholder="Enter designation">
+      </div>
+      <div class="form-group">
+        <label>Joining Date</label>
+        <input type="date" [(ngModel)]="selectedEmployee!.joiningDate" name="joiningDate">
+      </div>
+
+      <!-- Row 6 -->
+      <div class="form-group">
+        <label>Salary</label>
+        <input type="number" [(ngModel)]="selectedEmployee!.salary" name="salary" placeholder="Enter salary">
+      </div>
+
+      <!-- Buttons -->
+      <div class="form-actions">
+        <button type="button" class="btn" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="btn primary">{{ modalMode | titlecase }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- OTP Modal -->
+<div class="modal" *ngIf="otpModal">
+  <div class="modal-content">
+    <h3>Verify OTP</h3>
+
+    <input type="text" [(ngModel)]="otpEmail" placeholder="Enter Email">
+    <input type="text" [(ngModel)]="otpCode" placeholder="Enter OTP">
+
+    <div class="form-actions">
+      <button type="button" class="btn" (click)="closeOTPModal()">Cancel</button>
+      <button class="btn primary" (click)="verifyOTP()">Verify</button>
+    </div>
+  </div>
+</div>

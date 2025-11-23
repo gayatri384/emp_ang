@@ -1,0 +1,164 @@
+/*  Container */
+.container {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+/*  Table Wrapper */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/*  Asset Table */
+.asset-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.asset-table th {
+  background: #0f172a;
+  color: #fff;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.asset-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+.asset-table tr:hover {
+  background: #f1f5f9;
+  transition: 0.2s;
+}
+
+/*  Status Labels */
+.available {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.damaged {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+/*  Buttons */
+.btn {
+  padding: 6px 14px;
+  margin: 4px;
+  background: #0f172a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btn.small {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.btn.primary {
+  background: #28a745;
+}
+
+.btn.danger {
+  background: #dc3545;
+}
+
+.btn.print {
+  background: #0f172a;
+}
+
+/*  Modal Overlay */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 10px;
+}
+
+/*  Modal Box */
+.modal-content {
+  background: #fff;
+  padding: 35px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  border-radius: 12px;
+  overflow-y: auto;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+/*  Form Layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 25px;
+  row-gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/*  Responsive */
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .asset-table th,
+  .asset-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .btn {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+}

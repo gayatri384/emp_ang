@@ -1,0 +1,49 @@
+<div class="employee-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.open]="sidebarOpen">
+    <div class="sidebar-header">
+      <h2>Taskly</h2>
+      <button class="close-btn" (click)="toggleSidebar()">×</button>
+    </div>
+
+    <ul class="menu">
+      <li routerLink="/app-employee-layout/dashboard" routerLinkActive="active">Dashboard</li>
+      <li routerLink="/app-employee-layout/empleave" routerLinkActive="active">Leave</li>
+      <li routerLink="/app-employee-layout/empassets" routerLinkActive="active">Assigned Assets</li>
+      <li routerLink="/app-employee-layout/empattendance" routerLinkActive="active">Attendance</li>
+      <li (click)="logout()">Logout</li>
+    </ul>
+
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="menu-btn" (click)="toggleSidebar()">☰</button>
+
+
+      <div class="right-section">
+        <!-- <div class="search-box">
+          <input type="text" placeholder="Search...">
+          <i class="search-icon">🔍</i>
+        </div> -->
+
+        <div class="user-profile" (click)="toggleDropdown()">
+          <span class="me-3">👋 Welcome, <strong>{{ fullname }}</strong></span>
+          <ul class="user-dropdown" [class.show]="dropdownOpen">
+            <li routerLink="/admin/profile">Edit Profile</li>
+            <li (click)="logout()">Logout</li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <!-- Router Outlet -->
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>

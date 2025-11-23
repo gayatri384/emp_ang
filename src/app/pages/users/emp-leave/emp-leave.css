@@ -1,0 +1,217 @@
+/* Container Styling */
+.leave-form-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 25px 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+}
+
+.leave-form-container h2 {
+  text-align: center;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Form Styling */
+.leave-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Form Group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 15px;
+  color: #444;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Textarea */
+textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* Button */
+button {
+  background: #3d4754;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: #2a2929;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Message */
+.message {
+  text-align: center;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.message.success {
+  color: #28a745;
+}
+
+.message.error {
+  color: #dc3545;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .leave-form-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .leave-form-container h2 {
+    font-size: 20px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 14px;
+    padding: 9px;
+  }
+
+  button {
+    font-size: 15px;
+    padding: 10px;
+  }
+}
+
+/* leave table */
+/* ===== Table Container ===== */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 15px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Table Styling ===== */
+.leave-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 15px;
+  min-width: 600px;
+}
+
+.leave-table thead {
+  background: #3d4754;
+  color: #fff;
+}
+
+.leave-table th,
+.leave-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.leave-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* ===== Status Colors ===== */
+.pending {
+  color: #ffc107;
+  font-weight: 600;
+}
+
+.approved {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.rejected {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+/* ===== Heading ===== */
+.leave-title {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-size: 22px;
+  color: #333;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ===== No Records ===== */
+.no-records {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+  font-style: italic;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .leave-table {
+    font-size: 14px;
+    min-width: 100%;
+  }
+
+  .leave-table th,
+  .leave-table td {
+    padding: 10px;
+  }
+
+  .leave-title {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .leave-table th,
+  .leave-table td {
+    padding: 8px;
+  }
+
+  .leave-title {
+    font-size: 18px;
+  }
+}

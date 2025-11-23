@@ -1,0 +1,35 @@
+  <!-- Header -->
+  <div class="attendance-header">
+    <h2>My Attendance</h2>
+    <p class="subtitle">Track your daily work status easily</p>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-box">
+    <button (click)="markAttendance(1)" class="att-btn present" [disabled]="isMarkedToday">Present</button>
+    <button (click)="markAttendance(2)" class="att-btn half" [disabled]="isMarkedToday">Half Day</button>
+    <button (click)="markAttendance(3)" class="att-btn leave" [disabled]="isMarkedToday">Leave</button>
+  </div>
+
+  <p class="update-msg">{{ message }}</p>
+
+  <!-- Attendance Table -->
+  <div class="attendance-card" *ngIf="attendanceList.length > 0; else noData">
+
+    <div class="table-head">
+      <div>Date</div>
+      <div>Status</div>
+    </div>
+
+    <div class="table-row" *ngFor="let a of attendanceList">
+      <div class="date">{{ a.date | date:'dd MMM yyyy' }}</div>
+      <div class="status-badge" [ngClass]="getStatusLabel(a.status)">
+        {{ getStatusLabel(a.status) }}
+      </div>
+    </div>
+
+  </div>
+
+  <ng-template #noData>
+    <p class="no-data">No attendance records found.</p>
+  </ng-template>

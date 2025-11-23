@@ -1,0 +1,142 @@
+.leave-container {
+  padding: 25px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.leave-container h2 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  text-align: start;
+  color: #333;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.leave-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 750px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.leave-table th,
+.leave-table td {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.leave-table th {
+  background-color: #1e293b;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Status Colors */
+.status.pending {
+  color: #ffc107;
+  font-weight: 600;
+}
+
+.status.approved {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.status.rejected {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.btn.small {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.approve {
+  background-color: #28a745;
+  color: white;
+}
+
+.reject {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn.small:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+
+  .leave-table th,
+  .leave-table td {
+    padding: 8px 6px;
+    font-size: 0.8rem;
+  }
+
+  .btn.small {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+}
+
+/* Search and Pagination Wrapper */
+.search-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 15px 0;
+  justify-content: space-between;
+}
+
+.search-pagination input[type="text"] {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  flex: 1 1 200px;
+}
+
+/* Pagination Controls */
+.pagination-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.pagination-controls span {
+  font-weight: bold;
+}

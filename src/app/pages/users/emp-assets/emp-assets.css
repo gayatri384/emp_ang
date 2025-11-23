@@ -1,0 +1,71 @@
+.asset-title {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.asset-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.asset-table th,
+.asset-table td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.asset-table thead {
+  background: #3d4754;
+;
+  color: #fff;
+}
+
+.asset-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.asset-table tbody tr:hover {
+  background-color: #e9f3ff;
+}
+
+.good {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.damaged {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.no-records {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+/* ✅ Responsive tweaks */
+@media (max-width: 768px) {
+  .asset-title {
+    font-size: 1.3rem;
+  }
+
+  .asset-table th,
+  .asset-table td {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,59 @@
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.open]="sidebarOpen">
+    <div class="sidebar-header">
+      <h2>Taskly</h2>
+      <button class="close-btn" (click)="toggleSidebar()">×</button>
+    </div>
+
+    <ul class="menu">
+      <li routerLink="/dashboard" routerLinkActive="active">🏠 Dashboard</li>
+      <li routerLink="/employee" routerLinkActive="active">👤 Employees</li>
+      <li routerLink="/department" routerLinkActive="active">🏢 Departments</li>
+      <li routerLink="/assets" routerLinkActive="active">💼 Assets</li>
+      <li routerLink="/AAssets" routerLinkActive="active">📝 Assign Assets</li>
+      <li routerLink="/attendance" routerLinkActive="active">📅 Attendance</li>
+      <li routerLink="/leave" routerLinkActive="active">🕒 Leave</li>
+      <li (click)="logout()">🚪 Logout</li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="menu-btn" (click)="toggleSidebar()">☰</button>
+
+      <div class="right-section">
+        <!-- Search -->
+        <!-- <div class="search-box">
+          <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" />
+          <i class="fa fa-search search-icon"></i>
+        </div> -->
+
+        <!-- Notifications -->
+        <!-- <div class="notification">
+          <i class="fa fa-bell"></i>
+          <span class="count">{{ notificationCount }}</span>
+        </div> -->
+
+        <!-- Profile -->
+        <!-- Profile (Username instead of image) -->
+        <div class="user-profile" (click)="toggleDropdown()">
+          <span class="me-3">👋 Welcome, <strong>{{ fullName }}</strong></span>
+          <ul class="user-dropdown" [class.show]="dropdownOpen">
+            <li routerLink="/admin/profile">Edit Profile</li>
+            <li (click)="logout()">Logout</li>
+          </ul>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
