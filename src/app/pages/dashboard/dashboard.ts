@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { DashboardService } from '../services/dashboard.service';
 import { DashboardModal } from './dashboard.modal';
 
@@ -17,12 +17,22 @@ export class Dashboard implements OnInit {
     pendingLeaves: 0
   };
 
-  loading = true; // add a loading flag
+  loading = true;
 
   constructor(
     private dashboardService: DashboardService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {
+
+    // ✔ Reload Dashboard ONLY when route becomes active again
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && event.urlAfterRedirects === '/dashboard') {
+        this.loadDashboard();
+      }
+    });
+
+  }
 
   ngOnInit(): void {
     console.log('Dashboard initialized');
@@ -31,15 +41,25 @@ export class Dashboard implements OnInit {
 
   loadDashboard() {
     this.loading = true;
+
     this.dashboardService.getDashboardOverview().subscribe({
       next: (data) => {
-        this.dashboardData = data;
+
+        if (data) {
+          this.dashboardData = data;   // ✔ Set actual data
+        }
+
         this.loading = false;
         console.log('Dashboard data loaded:', data);
+
+        this.cdr.detectChanges();  // ✔ Forces Angular to update template
       },
+
       error: (err) => {
         console.error('Error fetching dashboard data:', err);
         this.loading = false;
+
+        this.cdr.detectChanges();  // ✔ Update UI even if error
       }
     });
   }

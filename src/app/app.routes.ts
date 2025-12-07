@@ -16,12 +16,14 @@ import { AssetsComponent } from './pages/assets/assets.component';
 import { AssignAssetsComponent } from './pages/assign-assets/assign-assets.conponent';
 import { UserDashboardComponent } from './pages/users/dashboard.component/dashboard.component';
 import { Attendance } from './pages/attendance/attendance';
+import { AdminTasksComponent } from './pages/a-task/a-task';
 
 // employee layout
 import { EmployeeLayoutComponent } from './pages/users/employee-layout/employee-layout';
 import { EmpLeave } from './pages/users/emp-leave/emp-leave';
 import { EmpAssets } from './pages/users/emp-assets/emp-assets';
 import { EmpAttendance } from './pages/users/emp-attendance/emp-attendance';
+import { EmployeeTasksComponent } from './pages/users/e-task/e-task';
 
 export const routes: Routes = [
   // Redirect root to login
@@ -50,6 +52,7 @@ export const routes: Routes = [
       { path: 'assets', component: AssetsComponent },
       { path: 'AAssets', component: AssignAssetsComponent },
       { path: 'attendance', component: Attendance },
+      { path: 'atask', component: AdminTasksComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
@@ -63,7 +66,8 @@ export const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'empleave', component: EmpLeave },
       { path: 'empassets', component: EmpAssets },
-      { path: 'empattendance', component: EmpAttendance }
+      { path: 'empattendance', component: EmpAttendance },
+      { path: 'etask', component: EmployeeTasksComponent }
     ]
   },
 

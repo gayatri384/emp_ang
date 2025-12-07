@@ -1,76 +1,112 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Leave } from './leave.model';
-import { OnInit } from '@angular/core';
 import { LeaveService } from '../services/leave.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
 
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+
 @Component({
   selector: 'app-leave',
-  imports: [FormsModule, CommonModule],
+  standalone: true,
+  imports: [FormsModule, CommonModule, MatPaginatorModule],
   templateUrl: './leave.html',
   styleUrl: './leave.css'
 })
 export class LeaveComponent implements OnInit {
-  leaves: Leave[] = [];
 
-  // Pagination + Search
-  page = 1;
+  leaves: Leave[] = [];        // Full data
+  pagedLeaves: Leave[] = [];   // Only current page data
+  filteredLeaves: Leave[] = [];  // filteredLeaves: Leave[] = [];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  // paginator values
+  length = 0;
   pageSize = 5;
-  totalRecords = 0;
-  searchText = "";
+  pageIndex = 0;
 
-  constructor(private leaveService: LeaveService, private routes: Router, private cdr: ChangeDetectorRef) { }
+  searchText: string = "";
+  statusFilter: string = ""; // Approved / Pending / Rejected
+
+  constructor(
+    private leaveService: LeaveService,
+    private routes: Router,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.fetchLeaves();
 
-    this.routes.events.pipe(filter(event => event instanceof NavigationEnd))
+    // Reload when navigating back to /leave
+    this.routes.events
+      .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         if (event.urlAfterRedirects.includes('/leave')) {
-          console.log("Navigated to /leave, reloading data");
           this.fetchLeaves();
         }
       });
   }
+
+  // Load data from API
   fetchLeaves() {
-    console.log("Loading employee data...");
     this.leaveService.getLeaves().subscribe({
       next: (data) => {
-        console.log("Employee data received:", data);
         this.leaves = data;
+        //Set filteredLeaves initially
+        this.filteredLeaves = data;
+        // Set paginator length
+        this.length = this.filteredLeaves.length;
+        // Display page 1
+        this.pageIndex = 0;
+        this.setPageData();
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error("Error loading employees:", err);
+        console.error("Error loading leaves:", err);
       }
     });
   }
+  // Slice data manually for pagination
+  setPageData() {
+    const start = this.pageIndex * this.pageSize;
+    const end = start + this.pageSize;
+    this.pagedLeaves = this.filteredLeaves.slice(start, end);
+  }
 
-  // Approve leave
+
+  // Trigger on paginator click
+  onPageChange(event: any) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.setPageData();
+  }
+
+  // approve leave
   approveLeave(leaveId: number) {
     this.leaveService.updateLeaveStatus(leaveId, 'Approved').subscribe({
-      next: (res) => {
+      next: () => {
         alert('Leave approved successfully');
-        this.fetchLeaves(); // refresh list
+        this.fetchLeaves();
       },
       error: (err) => console.error('Error approving leave:', err)
     });
   }
 
-  // Reject leave
+  // reject leave
   rejectLeave(leaveId: number) {
     this.leaveService.updateLeaveStatus(leaveId, 'Rejected').subscribe({
-      next: (res) => {
+      next: () => {
         alert('Leave rejected successfully');
-        this.fetchLeaves(); // refresh list
+        this.fetchLeaves();
       },
       error: (err) => console.error('Error rejecting leave:', err)
     });
   }
 
+  // delete leave
   deleteLeave(Id: number) {
     if (confirm('Are you sure to delete this record?')) {
       this.leaveService.deleteLeave(Id).subscribe({
@@ -82,28 +118,33 @@ export class LeaveComponent implements OnInit {
           console.error('Error deleting leave:', err);
           alert('Failed to delete leave. Please try again.');
         }
-      })
-    }
-  }
-  // Search event
-  onSearch() {
-    this.page = 1;
-    this.fetchLeaves();
-  }
-
-  // Next page
-  nextPage() {
-    if (this.page < Math.ceil(this.totalRecords / this.pageSize)) {
-      this.page++;
-      this.fetchLeaves();
+      });
     }
   }
 
-  // Previous page
-  prevPage() {
-    if (this.page > 1) {
-      this.page--;
-      this.fetchLeaves();
-    }
+  // SEARCH + STATUS FILTER
+  applyFilters() {
+    const text = this.searchText.toLowerCase().trim();
+
+    this.filteredLeaves = this.leaves.filter(l => {
+      const matchSearch =
+        (l.employee?.fullName.toLowerCase().includes(text)) ||
+        (l.reason?.toLowerCase().includes(text)) ||
+        (l.status?.toLowerCase().includes(text));
+
+      const matchStatus =
+        this.statusFilter === "" || l.status === this.statusFilter;
+
+      return matchSearch && matchStatus;
+    });
+
+    // Update paginator total length
+    this.length = this.filteredLeaves.length;
+
+    // Reset to first page
+    this.pageIndex = 0;
+
+    // Apply slice to page
+    this.setPageData();
   }
 }

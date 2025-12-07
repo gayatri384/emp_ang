@@ -53,7 +53,12 @@ export class Login {
       error: (err) => {
         this.isSubmitting = false;
         console.error('Login failed', err);
-        alert(err?.error || 'Invalid credentials or server error');
+
+        if (err.status === 0) {
+          alert('Cannot connect to server.');
+        } else {
+          alert(err.error || 'Invalid credentials or server error');
+        }
       }
     });
   }

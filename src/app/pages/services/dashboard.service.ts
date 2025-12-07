@@ -7,7 +7,7 @@ import { DashboardModal } from '../dashboard/dashboard.modal';
   providedIn: 'root'
 })
 export class DashboardService {
-  private apiUrl = 'https://localhost:44362/api/dashboard'; 
+  private apiUrl = 'https://localhost:44362/api/Dashboard'; 
 
   constructor(private http: HttpClient) {}
 

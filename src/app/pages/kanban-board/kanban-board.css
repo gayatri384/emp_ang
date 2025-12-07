@@ -1,0 +1,25 @@
+.kanban-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 20px;
+}
+
+#kanban {
+  min-width: 900px;
+}
+
+.kanban-board {
+  background: #fafafa;
+  border-radius: 12px;
+}
+
+.kanban-item {
+  background: white;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+.kanban-item:hover {
+  background: #f1f1f1;
+}

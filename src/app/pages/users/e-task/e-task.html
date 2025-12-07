@@ -1,0 +1,35 @@
+<div class="kanban-container">
+
+  <div class="kanban-column" *ngFor="let col of columns">
+
+    <!-- Column Header -->
+    <div class="column-header" [ngClass]="'col-' + col">
+      <h3>{{ getColumnName(col) }}</h3>
+      <div class="col-actions">
+        <mat-icon>more_vert</mat-icon>
+      </div>
+    </div>
+
+    <!-- Drop List - connect each list to all others -->
+    <div
+      cdkDropList
+      [id]="col.toString()"
+      [cdkDropListConnectedTo]="getConnectedIds()"
+      class="drop-list"
+      [cdkDropListData]="tasksByCol[col]"
+      (cdkDropListDropped)="drop($event, col)">
+
+      <!-- Task Cards -->
+      <div class="task-card" *ngFor="let t of (tasksByCol[col] ?? [])" cdkDrag>
+        <mat-card class="task-item">
+          <mat-card-title>{{ t.title }}</mat-card-title>
+          <mat-card-content>
+            <p>{{ t.description }}</p>
+            <mat-chip color="primary">{{ t.priority }}</mat-chip>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+    </div>
+  </div>
+</div>

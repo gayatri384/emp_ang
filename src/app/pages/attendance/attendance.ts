@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AttendanceService } from '../services/attendance.service';
@@ -19,7 +19,10 @@ export class Attendance implements OnInit {
   searchName = '';
   selectedDate = '';
 
-  constructor(private attendanceService: AttendanceService) { }
+  constructor(
+    private attendanceService: AttendanceService,
+    private cdr: ChangeDetectorRef        // <-- added
+  ) { }
 
   ngOnInit(): void {
     this.loadAttendance();
@@ -30,15 +33,18 @@ export class Attendance implements OnInit {
       next: (res) => {
         this.attendanceList = res;
         this.filteredList = res;
+
         console.log("Attendance Loaded:", res);
+
+        this.cdr.detectChanges();   // <-- Force UI refresh
       },
       error: (err) => {
         console.error("Error:", err);
         this.message = "Error loading attendance!";
+        this.cdr.detectChanges();   // <-- Refresh error message
       }
     });
   }
-
 
   // Filter logic
   applyFilters() {
@@ -47,6 +53,8 @@ export class Attendance implements OnInit {
       const matchesDate = this.selectedDate ? a.date.includes(this.selectedDate) : true;
       return matchesName && matchesDate;
     });
+
+    this.cdr.detectChanges();   // <-- Update table after filtering
   }
 
   updateAttendance(employeeId: number, date: string, status: number) {
@@ -55,9 +63,13 @@ export class Attendance implements OnInit {
     this.attendanceService.upsertAttendance(data).subscribe({
       next: () => {
         this.message = '✅ Attendance updated successfully!';
-        this.loadAttendance();
+        this.loadAttendance();       // reload list
+        this.cdr.detectChanges();    // <-- Force refresh
       },
-      error: () => this.message = '❌ Error updating attendance!'
+      error: () => {
+        this.message = '❌ Error updating attendance!';
+        this.cdr.detectChanges();    // <-- Refresh UI
+      }
     });
   }
 

@@ -4,13 +4,14 @@
   <button (click)="openOTPModal()" class="btn">Verify OTP</button>
   <!-- New Print Icon -->
   <button class="btn print" (click)="printAllEmployees()">
-    <i class="fa fa-print"></i> <!-- Font Awesome icon -->
+    <i class="fa fa-print"></i>
+    <!-- Font Awesome icon -->
   </button>
   <div class="search-pagination">
     <input type="text" [(ngModel)]="searchText" placeholder="Search..." (click)="search()" />
     <button (click)="search()" class="btn">Search</button>
   </div>
-  
+
   <div class="table-wrapper">
     <table class="employee-table">
       <thead>

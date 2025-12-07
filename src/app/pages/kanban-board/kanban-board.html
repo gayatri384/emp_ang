@@ -1,0 +1,10 @@
+
+<div class="kanban-container">
+  <select [(ngModel)]="selectedEmployeeId" (change)="filterByEmployee()">
+    <option value="0">All Employees</option>
+    <option *ngFor="let emp of employees" [value]="emp.id">
+       {{ emp.fullName }}
+    </option>
+</select>
+  <div id="kanban"></div>
+</div>

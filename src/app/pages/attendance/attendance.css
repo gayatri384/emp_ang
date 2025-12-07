@@ -1,92 +1,97 @@
 /* MAIN CONTAINER */
-.attendance-container {
+.container {
   padding: 20px;
   background: #f8f9fa;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
 }
 
 /* PAGE TITLE */
-.attendance-container h2 {
+h2 {
+  text-align: center;
   font-weight: 600;
   color: #0f172a;
 }
 
-/* FILTER AREA */
+/* FILTER SECTION */
 .filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
   justify-content: center;
+  gap: 15px;
   margin-bottom: 20px;
 }
 
 .filter-input {
-  padding: 8px 12px;
+  padding: 10px 14px;
   min-width: 220px;
-  border-radius: 6px !important;
-  border: 1px solid #ccc !important;
+  border-radius: 6px;
+  border: 1px solid #ccc;
   font-size: 14px;
 }
 
 /* SUCCESS MESSAGE */
-.attendance-container p {
+p {
+  text-align: center;
   font-size: 15px;
+  font-weight: 600;
 }
 
 /* TABLE WRAPPER */
 .table-responsive {
   overflow-x: auto;
-  border-radius: 12px;
-  background: #ffffff;
+  border-radius: 10px;
+  background: #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* TABLE STYLING */
+/* TABLE STYLE */
 table {
   width: 100%;
   border-collapse: collapse;
-  overflow: hidden;
+  text-align: center;
 }
 
-/* TABLE HEADER */
+/* HEADER */
 .table thead th {
   background: #0f172a !important;
-  color: white;
-  padding: 12px;
+  color: #fff;
+  padding: 14px;
   font-size: 15px;
+  text-align: center;
   font-weight: 600;
 }
 
-/* TABLE BODY */
+/* BODY CELLS */
 .table tbody td {
   padding: 12px;
+  border-bottom: 1px solid #eee;
   color: #333;
   font-size: 14px;
-  border-bottom: 1px solid #eee;
+  text-align: center;
 }
 
-/* ROW HOVER EFFECT */
+/* HOVER EFFECT */
 .table tbody tr:hover {
   background: #f1f5f9;
-  transition: 0.2s ease-in-out;
+  transition: 0.2s;
 }
 
-/* DROPDOWN IN TABLE */
-.table select {
-  padding: 4px 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-/* BADGES (status) */
+/* STATUS BADGES */
 .badge {
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 20px;
   font-size: 13px;
 }
 
-/* RESPONSIVE RULES */
+/* DROPDOWN STYLE */
+.table select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+}
+
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .filter-input {
     min-width: 100%;
@@ -94,24 +99,24 @@ table {
 
   .table thead th,
   .table tbody td {
-    padding: 10px;
     font-size: 13px;
+    padding: 10px;
   }
 }
 
 @media (max-width: 500px) {
-  .attendance-container {
+  .container {
     padding: 15px;
   }
 
   .table thead th,
   .table tbody td {
-    font-size: 12px;
     padding: 8px;
+    font-size: 12px;
   }
 
   .table select {
     font-size: 12px;
-    padding: 3px 6px;
+    padding: 4px 6px;
   }
 }

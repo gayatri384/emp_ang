@@ -26,7 +26,7 @@ export class AuthService {
       })
     );
   }
-  
+
   // get store role
   getRole(): string | null {
     return localStorage.getItem('role');
